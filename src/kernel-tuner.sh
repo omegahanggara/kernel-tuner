@@ -50,7 +50,70 @@ function interrupt()
 	done
 }
 
+function setTerminal()
+{
+	cout action "Setup your default terminal..."
+	sleep 1
+	which terminator > /dev/null
+	if [[ $(echo $?) -eq 0 ]]; then
+		terminal=terminator
+		cout info "Setup terminator as your terminal..."
+	else
+		cout error "Terminator not found! Finding another one..."
+		sleep 1
+		which gnome-terminal > /dev/null
+		if [[ $(echo $?) -eq 0 ]]; then
+			terminal=gnome-terminal
+			cout info "Setup gnome-terminal as your terminal..."
+		else
+			cout error "gnome-terminal not found! Finding another one..."
+			sleep 1
+			which konsole > /dev/null
+			if [[ $(echo $?) -eq 0 ]]; then
+				terminal=konsole
+				cout info "Setup konsole as your terminal..."
+			else
+				cout error "konsole not found! Finding another one..."
+				which xterm > /dev/null
+				if [[ $(echo $?)  -eq 0 ]]; then
+					terminal=xterm
+					cout info "Setup xterm as your terminal..."
+				else
+					cout error "xterm not found!"
+					if [[ $terminal == "" ]]; then
+						cout error "Looks like you don't have any terminal installed on your system. Make sure you have one of them, them execute this script again."
+						cout action "Quiting..."
+						sleep 2
+						exit 1
+					fi
+				fi
+			fi
+		fi
+	fi
+}
+
+function openTerminal()
+{
+	terminalCMD=$($terminal -e "$cmd")
+}
+
+function testTerminal()
+{
+	cout action "Testing your terminal..."
+	sleep 1
+	cmd="whoami; sleep 3"
+	openTerminal > /dev/null 2>&1
+	if [[ $? -eq 0 ]]; then
+		cout info "Looks good..."
+		sleep 1
+	else
+		cout error "Looks not good... It's OK tho, but you may experience some problems on installation..."
+	fi
+}
+
 #------------------------ Main Program -----------------------------#
 
 trap 'interrupt' INT
 checkRoot
+setTerminal
+testTerminal
