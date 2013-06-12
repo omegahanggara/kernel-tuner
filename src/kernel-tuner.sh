@@ -122,6 +122,186 @@ function findSysCtl()
 	fi
 }
 
+function checkValue()
+{
+	cout action "Checking your kernel parameter..."
+	sleep 1
+	if [[ $(sysctl -n kernel.sem | awk {'print $1, $2, $3, $4'}) == "250 32000 100 128" ]]; then
+		cout info "kernel.sem already optimized!"
+	else
+		cout warning "kernel.sem is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n kernel.shmall) == "2097152" ]]; then
+		cout info "kernel.shmall already optimized!"
+	else
+		cout warning "kernel.shmall is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n kernel.shmmni) == "4096" ]]; then
+		cout info "kernel.shmmni already optimized!"
+	else
+		cout warning "kernel.shmmni is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n vm.swappiness) == "10" ]]; then
+		cout info "vm.swappiness already optimized!"
+	else
+		cout warning "vm.swappiness is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n vm.vfs_cache_pressure) == "50" ]]; then
+		cout info "vm.vfs_cache_pressure already optimized!"
+	else
+		cout warning "vm.vfs_cache_pressure is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n net.core.rmem_max) == "16777216" ]]; then
+		cout info "net.core.rmem_max already optimized!"
+	else
+		cout warning "net.core.rmem_max is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n net.core.wmem_max) == "16777216" ]]; then
+		cout info "net.core.wmem_max already optimized!"
+	else
+		cout warning "net.core.wmem_max is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n net.ipv4.tcp_rmem | awk {'print $1, $2, $3'}) == "4096 87380 16777216" ]]; then
+		cout info "net.ipv4.tcp_rmem already optimized!"
+	else
+		cout warning "net.ipv4.tcp_rmem is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n net.ipv4.tcp_wmem | awk {'print $1, $2, $3'}) == "4096 65536 16777216" ]]; then
+		cout info "net.ipv4.tcp_wmem already optimized!"
+	else
+		cout warning "net.ipv4.tcp_wmem is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n net.ipv4.tcp_no_metrics_save) == "1" ]]; then
+		cout info "net.ipv4.tcp_no_metrics_save already optimized!"
+	else
+		cout warning "net.ipv4.tcp_no_metrics_save is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n net.ipv4.tcp_low_latency) == "1" ]]; then
+		cout info "net.ipv4.tcp_low_latency already optimized!"
+	else
+		cout warning "net.ipv4.tcp_low_latency is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n net.ipv4.ipfrag_secret_interval) == "6000" ]]; then
+		cout info "net.ipv4.ipfrag_secret_interval already optimized!"
+	else
+		cout warning "net.ipv4.ipfrag_secret_interval is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n net.ipv4.conf.all.accept_redirects) == "0" ]]; then
+		cout info "net.ipv4.conf.all.accept_redirects already optimized!"
+	else
+		cout warning "net.ipv4.conf.all.accept_redirects is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n net.ipv6.conf.all.accept_redirects) == "0" ]]; then
+		cout info "net.ipv6.conf.all.accept_redirects already optimized!"
+	else
+		cout warning "net.ipv6.conf.all.accept_redirects is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n net.ipv4.tcp_syncookies) == "1" ]]; then
+		cout info "net.ipv4.tcp_syncookies already optimized!"
+	else
+		cout warning "net.ipv4.tcp_syncookies is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n net.ipv4.tcp_synack_retries) == "2" ]]; then
+		cout info "net.ipv4.tcp_synack_retries already optimized!"
+	else
+		cout warning "net.ipv4.tcp_synack_retries is not optimized!"
+	fi
+	sleep 1
+	
+	if [[ $(sysctl -n fs.file-max) == "100000" ]]; then
+		cout info "fs.file-max already optimized!"
+	else
+		cout warning "fs.file-max is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n net.ipv4.tcp_sack) == "1" ]]; then
+		cout info "net.ipv4.tcp_sack already optimized!"
+	else
+		cout warning "net.ipv4.tcp_sack is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n net.ipv4.tcp_timestamps) == "1" ]]; then
+		cout info "net.ipv4.tcp_timestamps already optimized!"
+	else
+		cout warning "net.ipv4.tcp_timestamps is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n net.ipv4.tcp_fin_timeout) == "1" ]]; then
+		cout info "net.ipv4.tcp_fin_timeout already optimized!"
+	else
+		cout warning "net.ipv4.tcp_fin_timeout is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n net.ipv4.tcp_tw_recycle) == "1" ]]; then
+		cout info "net.ipv4.tcp_tw_recycle already optimized!"
+	else
+		cout warning "net.ipv4.tcp_tw_recycle is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n net.core.netdev_max_backlog) == "262144" ]]; then
+		cout info "net.core.netdev_max_backlog already optimized!"
+	else
+		cout warning "net.core.netdev_max_backlog is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n net.core.somaxconn) == "262144" ]]; then
+		cout info "net.core.somaxconn already optimized!"
+	else
+		cout warning "net.core.somaxconn is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n net.ipv4.tcp_max_orphans) == "262144" ]]; then
+		cout info "net.ipv4.tcp_max_orphans already optimized!"
+	else
+		cout warning "net.ipv4.tcp_max_orphans is not optimized!"
+	fi
+	sleep 1
+
+	if [[ $(sysctl -n net.ipv4.tcp_max_syn_backlog) == "262144" ]]; then
+		cout info "net.ipv4.tcp_max_syn_backlog already optimized!"
+	else
+		cout warning "net.ipv4.tcp_max_syn_backlog is not optimized!"
+	fi
+	sleep 1
+}
+
 #------------------------ Main Program -----------------------------#
 
 trap 'interrupt' INT
@@ -129,3 +309,4 @@ checkRoot
 setTerminal
 testTerminal
 findSysCtl
+checkValue
