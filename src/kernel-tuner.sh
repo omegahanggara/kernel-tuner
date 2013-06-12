@@ -302,6 +302,26 @@ function checkValue()
 	sleep 1
 }
 
+function backupOriginalSysctl()
+{
+	if [[ -f "/etc/sysctl.conf" ]]; then
+		cout info "Found sysctl.conf, backing up."
+		mv /etc/sysctl.conf sysctl.conf.original
+		sleep 1
+		cout action "Creating new fresh sysctl.conf"
+		touch /etc/sysctl.conf
+		sleep 1
+		cout info "Done..."
+	else
+		cout warning "sysctl.conf not found!"
+		sleep 1
+		cout action "Creating new fresh sysctl.conf"
+		touch /etc/sysctl.conf
+		sleep 1
+		cout info "Done..."
+	fi
+}
+
 #------------------------ Main Program -----------------------------#
 
 trap 'interrupt' INT
@@ -310,3 +330,4 @@ setTerminal
 testTerminal
 findSysCtl
 checkValue
+backupOriginalSysctl
