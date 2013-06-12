@@ -111,9 +111,21 @@ function testTerminal()
 	fi
 }
 
+function findSysCtl()
+{
+	cout action "Finding your sysctl.conf..."
+	sleep 1
+	if [[ -f "/etc/sysctl.conf" ]]; then
+		cout info "Found sysctl in /etc directory!"
+	else
+		cout warning "sysctl.conf not found!"
+	fi
+}
+
 #------------------------ Main Program -----------------------------#
 
 trap 'interrupt' INT
 checkRoot
 setTerminal
 testTerminal
+findSysCtl
