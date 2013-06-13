@@ -312,7 +312,7 @@ function backupOriginalSysctl()
 {
 	if [[ -f "/etc/sysctl.conf" ]]; then
 		cout info "Found sysctl.conf, backing up."
-		mv /etc/sysctl.conf sysctl.conf.original
+		mv /etc/sysctl.conf /etc/sysctl.conf.original
 		sleep 1
 		cout action "Creating new fresh sysctl.conf"
 		touch /etc/sysctl.conf
