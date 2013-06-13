@@ -41,7 +41,13 @@ function interrupt()
 		cin info "Do you really want to exit? (Y/n) "
 		read answer
 		if [[ $answer == *[Yy]* ]] || [[ $answer == "" ]]; then
-			cout action "Quiting"
+			cout action "Quiting..."
+			if [[ -f "/etc/sysctl.conf.original" ]]; then
+				cout action "Restore original sysctl.conf"
+				mv /etc/sysctl.conf.original /etc/sysctl.conf
+				sleep 1
+				cout info "Done..."
+			fi
 			exit 0
 		elif [[ $answer == *[Nn]* ]]; then
 			cout action "Rock on..."
@@ -322,6 +328,137 @@ function backupOriginalSysctl()
 	fi
 }
 
+function insertConfiguration()
+{
+	echo "$1" >> /etc/sysctl.conf
+}
+
+function createNewSysctl()
+{
+	cout action "Building optimized settings for your system..."
+	sleep 1
+
+	cout action "Creating header..."
+	sleep 1
+	insertConfiguration "# /etc/sysctl.conf - Configuration file for setting system variables"
+	insertConfiguration "# See /etc/sysctl.d/ for additional system variables"
+	insertConfiguration "# This configuration made by t193r"
+	insertConfiguration "# Please don't remove third line"
+	insertConfiguration ""
+	cout info "Done..."
+	sleep 1
+
+	cout action "Inserting kernel parameter"
+	sleep 1
+
+	cout action "Optimizing kernel.sem parameter..."
+	sleep 1
+	insertConfiguration "kernel.sem = 250 32000 100 128"
+
+	cout action "Optimizing kernel.shmall parameter..."
+	sleep 1
+	insertConfiguration "kernel.shmall = 2097152"
+
+	cout action "Optimizing kernel.shmmax parameter..."
+	sleep 1
+	insertConfiguration "kernel.shmmax = 2147483648"
+
+	cout action "Optimizing kernel.shmmni parameter..."
+	sleep 1
+	insertConfiguration "kernel.shmmni = 4096"
+
+	cout action "Optimizing vm.swappiness parameter..."
+	sleep 1
+	insertConfiguration "vm.swappiness = 10"
+
+	cout action "Optimizing vm.vfs_cache_pressure parameter..."
+	sleep 1
+	insertConfiguration "vm.vfs_cache_pressure = 50"
+
+	cout action "Optimizing net.core.rmem_max parameter..."
+	sleep 1
+	insertConfiguration "net.core.rmem_max = 16777216"
+
+	cout action "Optimizing net.core.wmem_max parameter"
+	sleep 1
+	insertConfiguration "net.core.wmem_max = 16777216"
+
+	cout action "Optimizing net.ipv4.tcp_rmem parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_rmem = 4096 87380 16777216"
+
+	cout action "Optimizing net.ipv4.tcp_wmem parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_wmem = 4096 65536 16777216"
+
+	cout action "Optimizing net.ipv4.tcp_no_metrics_save parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_no_metrics_save = 1"
+
+	cout action "Optimizing net.ipv4.tcp_low_latency parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_low_latency = 1"
+
+	cout action "Optimizing net.ipv4.ipfrag_secret_interval parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.ipfrag_secret_interval = 6000"
+
+	cout action "Optimizing net.ipv4.conf.all.accept_redirects parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.conf.all.accept_redirects = 0"
+
+	cout action "Optimizing net.ipv6.conf.all.accept_redirects parameter..."
+	sleep 1
+	insertConfiguration "net.ipv6.conf.all.accept_redirects = 0"
+
+	cout action "Optimizing net.ipv4.tcp_syncookies parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_syncookies = 1"
+
+	cout action "Optimizing net.ipv4.tcp_synack_retries parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_synack_retries = 2"
+
+	cout action "Optimizing fs.file-max parameter..."
+	sleep 1
+	insertConfiguration "fs.file-max = 100000"
+
+	cout action "Optimizing net.ipv4.tcp_sack parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_sack = 1"
+
+	cout action "Optimizing net.ipv4.tcp_timestamps parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_timestamps = 1"
+
+	cout action "Optimizing net.ipv4.tcp_fin_timeout parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_fin_timeout = 1"
+
+	cout action "Optimizing net.ipv4.tcp_tw_recycle parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_tw_recycle = 1"
+
+	cout action "Optimizing net.core.netdev_max_backlog parameter..."
+	sleep 1
+	insertConfiguration "net.core.netdev_max_backlog = 262144"
+
+	cout action "Optimizing net.core.somaxconn parameter..."
+	sleep 1
+	insertConfiguration "net.core.somaxconn = 262144"
+
+	cout action "Optimizing net.ipv4.tcp_max_orphans parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_max_orphans = 262144"
+
+	cout action "Optimizing net.ipv4.tcp_max_syn_backlog parameter..."
+	sleep 1
+	insertConfiguration "net.ipv4.tcp_max_syn_backlog = 262144"
+
+	cout info "All done..."
+	sleep 1
+}
+
 #------------------------ Main Program -----------------------------#
 
 trap 'interrupt' INT
@@ -331,3 +468,4 @@ testTerminal
 findSysCtl
 checkValue
 backupOriginalSysctl
+createNewSysctl
