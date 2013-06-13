@@ -12,14 +12,18 @@ If you find any bug(s), please let me know by send me an email to hanggara33@gma
 ```
 
 ```
+How to download the script?
+$ git clone git@github.com:omegahanggara/kernel-tuner.git
+$ cd kernel-tuner
+$ bash src/kernel-tuner.sh
+```
+
 You may wonder, what's the difference between not-optimized paramater, and optimized parameter.
 BEFORE you try this kernel tuner, visit http://speedtest.net to check your current internet speed!
 After you got some information from your test, then launch this script.
 Check again your internet speed (now you are optimized) on http://speedtest.net
 See the difference? Feel the speed!
-```
 
 This repository under maintenace by [omegahanggara](https://github.com/omegahanggara)
-
 
 Find me on twitter [omegahanggara](https://www.twitter.com/omegahanggara)
