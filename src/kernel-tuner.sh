@@ -459,6 +459,16 @@ function createNewSysctl()
 	sleep 1
 }
 
+function applyNewParameter()
+{
+	cout action "Apllying new configuration..."
+	sleep 1
+	cout info "If you find any error, or you have a suggest[s] please let me know by send me an email to hanggara33[at]gmail[dot]com"
+	sysctl -p
+	sleep 1
+	cout info "All done... Have a nice day..."
+}
+
 #------------------------ Main Program -----------------------------#
 
 trap 'interrupt' INT
@@ -469,3 +479,4 @@ findSysCtl
 checkValue
 backupOriginalSysctl
 createNewSysctl
+applyNewParameter
